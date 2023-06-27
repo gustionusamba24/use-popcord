@@ -63,6 +63,17 @@ const App = () => {
       </NavBar>
 
       <Main>
+        {/* Explicit */}
+        {/* <Box element={<MovieList movies={movies} />} />
+        <Box
+          element={
+            <>
+              <WatchedSummary watched={watched} />
+              <WatchedMoviesList watched={watched} />
+            </>
+          }
+        /> */}
+        {/* Implicit */}
         <Box>
           <MovieList movies={movies} />
         </Box>
