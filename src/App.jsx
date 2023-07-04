@@ -53,16 +53,35 @@ const average = (arr) =>
 const KEY = "963ef6a7";
 
 const App = () => {
+  const [query, setQuery] = useState("");
   const [movies, setMovies] = useState([]);
   const [watched, setWatched] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const query = "transformers";
+  const tempQuery = "transformers";
+
+  /**
+  useEffect(() => {
+    console.log("After initial render");
+  }, []);
+
+  useEffect(() => {
+    console.log("After every render");
+  });
+
+  useEffect(() => {
+    console.log("D");
+  }, [query]);
+
+  console.log("During render");
+  **/
 
   useEffect(() => {
     async function fetchMovies() {
       try {
         setIsLoading(true);
+        setError("");
+
         const res = await fetch(
           `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`
         );
@@ -79,20 +98,26 @@ const App = () => {
 
         setMovies(data.Search);
       } catch (err) {
-        console.error(err.message);
         setError(err.message);
       } finally {
         setIsLoading(false);
       }
     }
+
+    if (query.length < 3) {
+      setMovies([]);
+      setError("");
+      return;
+    }
+
     fetchMovies();
-  }, []);
+  }, [query]);
 
   return (
     <>
       <NavBar>
         <Logo />
-        <SearchBar />
+        <SearchBar query={query} setQuery={setQuery} />
         <NumResults movies={movies} />
       </NavBar>
 
@@ -149,9 +174,7 @@ const Logo = () => {
   );
 };
 
-const SearchBar = () => {
-  const [query, setQuery] = useState("");
-
+const SearchBar = ({ query, setQuery }) => {
   return (
     <input
       className="search"
