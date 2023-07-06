@@ -296,6 +296,10 @@ const MovieDetails = ({
   useEffect(() => {
     if (!title) return;
     document.title = `Movie | ${title}`;
+
+    return () => {
+      document.title = "Movie App";
+    };
   }, [title]);
 
   return (
