@@ -7,12 +7,28 @@ const average = (arr) =>
 const KEY = "963ef6a7";
 
 const App = () => {
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState("transformers");
   const [movies, setMovies] = useState([]);
   const [watched, setWatched] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [selectedId, setSelectedId] = useState(null);
+
+  /**
+  useEffect(() => {
+    console.log("After initial render");
+  }, []);
+
+  useEffect(() => {
+    console.log("After every render");
+  });
+
+  useEffect(() => {
+    console.log("D");
+  }, [query]);
+
+  console.log("During render");
+  **/
 
   const handleSelectMovie = (id) => {
     setSelectedId((selectedId) => (id === selectedId ? null : id));
@@ -71,7 +87,6 @@ const App = () => {
       return;
     }
 
-    handleCloseMovie();
     fetchMovies();
 
     return () => controller.abort();
@@ -86,6 +101,17 @@ const App = () => {
       </NavBar>
 
       <Main>
+        {/* Explicit */}
+        {/* <Box element={<MovieList movies={movies} />} />
+        <Box
+          element={
+            <>
+              <WatchedSummary watched={watched} />
+              <WatchedMoviesList watched={watched} />
+            </>
+          }
+        /> */}
+        {/* Implicit */}
         <Box>
           {/* {isLoading ? <Loader /> : <MovieList movies={movies} />} */}
           {isLoading && <Loader />}
@@ -260,18 +286,6 @@ const MovieDetails = ({
     onAddWatched(newWatchedMovie);
     onCloseMovie();
   };
-
-  useEffect(() => {
-    const callback = (e) => {
-      if (e.code === "Escape") {
-        onCloseMovie();
-      }
-    };
-    document.addEventListener("keydown", callback);
-    return () => {
-      document.removeEventListener("keydown", callback);
-    };
-  }, [onCloseMovie]);
 
   useEffect(() => {
     async function getMovieDetails() {
