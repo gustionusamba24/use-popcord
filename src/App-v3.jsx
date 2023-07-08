@@ -246,9 +246,6 @@ const MovieDetails = ({
     Genre: genre,
   } = movie;
 
-  /* eslint-disable */
-  // if (imdbRating > 8) [isTop, setIsTop] = useState(true);
-
   const handleAdd = () => {
     const newWatchedMovie = {
       imdbID: selectedId,
