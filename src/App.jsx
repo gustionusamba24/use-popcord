@@ -161,6 +161,12 @@ const Logo = () => {
 };
 
 const SearchBar = ({ query, setQuery }) => {
+  useEffect(() => {
+    const el = document.querySelector(".search");
+    console.log(el);
+    el.focus();
+  }, []);
+
   return (
     <input
       className="search"
